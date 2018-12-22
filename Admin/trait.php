@@ -17,12 +17,12 @@
     $sql = "SELECT img FROM bio";
     $req = $conn -> query($sql);
     $r = $req -> fetch();
-    unlink($r['img']);
+    unlink('../'.$r['img']);
 
     $ext = ".".pathinfo($n, PATHINFO_EXTENSION);
-    $pathnewphoto1 = "../assets/img/photoprof".$ext;
+    $pathnewphoto1 = "assets/img/photoprof".$ext;
 
-    move_uploaded_file($temp,$pathnewphoto1);
+    move_uploaded_file($temp,'../'.$pathnewphoto1);
 
     $sql = "UPDATE bio
             SET age = '$age',
@@ -149,9 +149,9 @@
     $e = $_FILES['imgpro']['error'];
 
     $ext = ".".pathinfo($n, PATHINFO_EXTENSION);
-    $pathnewphoto1 = "../assets/img/projet".rand(0,1024).$ext;
+    $pathnewphoto1 = "assets/img/projet".rand(0,1024).$ext;
 
-    move_uploaded_file($temp,$pathnewphoto1);
+    move_uploaded_file($temp,'../'.$pathnewphoto1);
 
     $sql = "INSERT INTO projet VALUES(NULL,$lib,'$pathnewphoto1',$desc,0)";
     $req = $conn -> query($sql)or die($sql);
@@ -171,12 +171,12 @@
     $sql = "SELECT img_pro FROM projet WHERE id_pro = '$id'";
     $req = $conn -> query($sql);
     $r = $req -> fetch();
-    unlink($r['img_pro']);
+    unlink('../'.$r['img_pro']);
 
     $ext = ".".pathinfo($n, PATHINFO_EXTENSION);
-    $pathnewphoto1 = "../assets/img/projet".$id.$ext;
+    $pathnewphoto1 = "assets/img/projet".$id.$ext;
 
-    move_uploaded_file($temp,$pathnewphoto1);
+    move_uploaded_file($temp,"../".$pathnewphoto1);
 
     $sql = "UPDATE projet SET lib_pro = $lib,
                               desc_pro = $desc,
@@ -192,7 +192,7 @@
     $sql = "SELECT img_pro FROM projet WHERE id_pro = '$id'";
     $req = $conn -> query($sql);
     $r = $req -> fetch();
-    unlink($r['img_pro']);
+    unlink('../'.$r['img_pro']);
 
     $sql = "UPDATE projet SET valide_pro = 1
                             WHERE id_pro = $id";

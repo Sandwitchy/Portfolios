@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<?php
+  include('Admin/bdd.inc.php');
+ ?>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -13,7 +16,7 @@
 </head>
 <body>
 
-<!--Switcher-->
+<!--Switcher
   <div class="style-switcher">
     <span class="style-switcher__control"></span>
     <div class="style-switcher__list">
@@ -21,7 +24,7 @@
       <a class="style-switcher__link style-switcher__link--mono"></a>
     </div>
   </div>
-<!--Switcher-->
+Switcher-->
 
 <!--Main menu-->
   <div class="menu">
@@ -32,9 +35,8 @@
             <ul>
               <li><a href="#hello">Hello</a></li>
               <li><a href="#resume">Resume</a></li>
-              <li><a href="#portfolio">Portfolio</a></li>
-              <li><a href="#testimonials">testimonials</a></li>
-              <li><a href="#blog">blog</a></li>
+              <li><a href="#portfolio">Mes Projets</a></li>
+              <!--<li><a href="#blog">blog</a></li>-->
               <li><a href="#contact">Contact</a></li>
             </ul>
           </nav>
@@ -59,9 +61,8 @@
         <ul>
           <li><a href="#hello">Hello</a></li>
           <li><a href="#resume">Resume</a></li>
-          <li><a href="#portfolio">Portfolio</a></li>
-          <li><a href="#testimonials">testimonials</a></li>
-          <li><a href="#blog">blog</a></li>
+          <li><a href="#portfolio">Mes Projets</a></li>
+          <!--<li><a href="#blog">blog</a></li>-->
           <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
@@ -70,31 +71,34 @@
 <!-- Mobile menu -->
 
 <!--Header-->
-  <header class="main-header" style="background-image: url(assets/img/img_bg_header.jpg)">
+<?php
+  $sql = "SELECT * FROM bio";
+  $req = $conn -> query($sql);
+  $r = $req -> fetch();
+?>
+  <header class="main-header" style="background-image: url(<?php echo $r['img']; ?>)">
     <div class="container">
       <div class="row personal-profile">
         <div class="col-md-4 personal-profile__avatar">
-          <img class="" src="http://via.placeholder.com/350x400" alt="avatar">
+          <img class="" src="<?php echo $r['img']; ?>" alt="avatar">
         </div>
         <div class="col-md-8">
-          <p class="personal-profile__name">John Anderson_</p>
-          <p class="personal-profile__work">frontend developer, QA-engineer</p>
+          <p class="personal-profile__name">FRATANI Andréa_</p>
+          <p class="personal-profile__work"><?php echo $r['descri'] ?></p>
           <div class="personal-profile__contacts">
             <dl class="contact-list contact-list__opacity-titles">
               <dt>Age:</dt>
-              <dd>23</dd>
-              <dt>Phone:</dt>
-              <dd><a href="tel:82344563333">8 (234) 456-33-33</a></dd>
+              <dd><?php echo $r['age']; ?></dd>
               <dt>Email:</dt>
-              <dd><a href="mailto:mail@mail.com">mail@mail.com</a></dd>
-              <dt>Address:</dt>
-              <dd>Melbourne Victoria 3000 Australia</dd>
+              <dd><a href="mailto<?php echo $r['mail']; ?>"><?php echo $r['mail']; ?></a></dd>
+              <dt>Addresse:</dt>
+              <dd><?php echo $r['adress']; ?></dd>
             </dl>
           </div>
           <p class="personal-profile__social">
-            <a href="" target="_blank"><i class="fa fa-github"></i></a>
-            <a href="" target="_blank"><i class="fa fa-linkedin-square"></i></a>
-            <a href="" target="_blank"><i class="fa fa-facebook-square"></i></a>
+            <a href="https://github.com/Sandwitchy" target="_blanck"><i class="fa fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/andr%C3%A9a-fratani-13748315b/" target="_blanck"><i class="fa fa-linkedin-square"></i></a>
+            <a href="https://twitter.com/elsandwitchy" target="_blanck"><i class="fa fa-twitter-square"></i></a>
           </p>
         </div>
       </div>
@@ -108,10 +112,7 @@
       <div class="col-md-10">
         <h2 id="hello_header" class="section__title">Hi_</h2>
         <p class="section__description">
-          I am Junior Web developer able to build a Web presence from the ground up - from concept, navigation,
-          layout and programming to UX and SEO. Skilled at writing well-designed, testable and efficient code using
-          current best practices in Web development. Fast learner, hard worker and team player who is proficient in
-          an array of scripting languages and multimedia Web tools.
+        <?php echo $r['bio_content']; ?>
         </p>
         <a href="" class="section_btn site-btn"><img src="assets/img/img_btn_icon.png" alt="">Download CV</a>
       </div>
@@ -136,148 +137,85 @@
     </div>
     <div class="row">
       <div class="col-md-8 section__resume resume-list">
-        <h3 class="resume-list_title">education</h3>
-        <div class="resume-list__block">
-          <p class="resume-list__block-title">University of Minnesota Twin Cities </p>
-          <p class="resume-list__block-date">2006 - 2010</p>
-          <p>
-            Bachelor Computer Engineering Lorem
-          </p>
-        </div>
-        <div class="resume-list__block">
-          <p class="resume-list__block-title">School of Informational technologies</p>
-          <p class="resume-list__block-date">2004 - 2005</p>
-          <p>
-            Awesome student, lorem ipsum dolor sit amet, conse ctetur adipisicing elit, sed do eius-
-            mod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-          </p>
-        </div>
-        <div class="resume-list__block">
-          <p class="resume-list__block-title">Lorem Ipsum School</p>
-          <p class="resume-list__block-date">2003 - 2006</p>
-          <p>
-            Student, Lorem ipsum dolor sit amet, consecte tur adipisicing elit, sed do eiusmod tempor
-            incididunt ut
-          </p>
-        </div>
+        <h3 class="resume-list_title">Diplome</h3>
+        <?php
+          $sql ="SELECT * FROM diplome WHERE valide_dipl = 0 ORDER BY datefin DESC";
+          $req = $conn -> query($sql);
+          while ($r = $req -> fetch())
+          {
+            ?>
+            <div class="resume-list__block">
+              <p class="resume-list__block-title"><?php echo $r['lib_dipl'] ?> </p>
+              <p class="resume-list__block-date"><?php echo $r['datedeb']." - ".$r['datefin']; ?></p>
+              <p>
+                <?php echo $r['desc_dipl']; ?>
+              </p>
+            </div>
+            <?php
+          }
+         ?>
+
+
       </div>
     </div>
     <div class="row">
       <div class="col-md-8 section__resume resume-list">
-        <h3 class="resume-list_title">employment</h3>
-        <div class="resume-list__block">
-          <p class="resume-list__block-title">Apple</p>
-          <p class="resume-list__block-date">2006 - 2010</p>
-          <p>
-            Senior Full Stack Developer
-          </p>
-        </div>
-        <div class="resume-list__block">
-          <p class="resume-list__block-title">Tech university</p>
-          <p class="resume-list__block-date">2004 - 2005</p>
-          <p>
-            Awesome developer, lorem ipsum dolor sit amet, conse ctetur adipisicing elit, sed do eius-
-            mod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-          </p>
-        </div>
-        <div class="resume-list__block">
-          <p class="resume-list__block-title">Molly’s studio</p>
-          <p class="resume-list__block-date">2003 - 2006</p>
-          <p>
-            Programmer Lorem ipsum dolor sit amet, consecte tur adipisicing elit, sed do eiusmod tempor
-            incididunt ut
-          </p>
-        </div>
+        <h3 class="resume-list_title">Expérience Profesionnel</h3>
+        <?php
+          $sql = "SELECT * FROM experience WHERE valide_exp = 0 ORDER BY datefin DESC";
+          $req = $conn -> query($sql);
+          while ($r = $req -> fetch())
+          {
+         ?>
+          <div class="resume-list__block">
+            <p class="resume-list__block-title"><?php echo $r['lib_exp'] ?></p>
+            <p class="resume-list__block-date"><?php echo $r['datedeb']." - ".$r['datefin']; ?></p>
+            <p>
+              <?php echo $r['desc_exp']; ?>
+            </p>
+          </div>
+        <?php
+          }
+        ?>
+
       </div>
     </div>
     <div class="row section__resume progress-list js-progress-list">
       <div class="col-md-12">
         <h3 class="progress-list__title">general skills</h3>
       </div>
-      <div class="col-md-5 mr-auto">
-        <div class="progress-list__skill">
-          <p>
-            <span class="progress-list__skill-title">html5</span>
-            <span class="progress-list__skill-value">80%</span>
-          </p>
-          <div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" >
+    <?php
+      $sql = "SELECT * FROM skill WHERE valide_sk = 0";
+      $req = $conn -> query($sql);
+      $count = 0;
+      while ($r = $req -> fetch())
+      {
+        if ($count == 0) {
+          ?>
+          <div class="col-md-5 mr-auto">
+          <?php
+        }
+     ?>
+          <div class="progress-list__skill">
+            <p>
+              <span class="progress-list__skill-title"><?php echo $r['lib_sk']; ?></span>
+              <span class="progress-list__skill-value"><?php echo $r['niv_sk']; ?>%</span>
+            </p>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $r['niv_sk']; ?>" aria-valuemin="0" aria-valuemax="100" >
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="progress-list__skill">
-          <p>
-            <span class="progress-list__skill-title">css3</span>
-            <span class="progress-list__skill-value">70%</span>
-          </p>
-          <div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
-            </div>
-          </div>
-        </div>
-        <div class="progress-list__skill">
-          <p>
-            <span class="progress-list__skill-title">java script</span>
-            <span class="progress-list__skill-value">90%</span>
-          </p>
-          <div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
-            </div>
-          </div>
-        </div>
-        <div class="progress-list__skill">
-          <p>
-            <span class="progress-list__skill-title">jquery</span>
-            <span class="progress-list__skill-value">80%</span>
-          </p>
-          <div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-5 mr-auto">
-        <div class="progress-list__skill">
-          <p>
-            <span class="progress-list__skill-title">bootstrap 3</span>
-            <span class="progress-list__skill-value">80%</span>
-          </p>
-          <div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
-            </div>
-          </div>
-        </div>
-        <div class="progress-list__skill">
-          <p>
-            <span class="progress-list__skill-title">grunt</span>
-            <span class="progress-list__skill-value">60%</span>
-          </p>
-          <div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
-            </div>
-          </div>
-        </div>
-        <div class="progress-list__skill">
-          <p>
-            <span class="progress-list__skill-title">git</span>
-            <span class="progress-list__skill-value">90%</span>
-          </p>
-          <div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
-            </div>
-          </div>
-        </div>
-        <div class="progress-list__skill">
-          <p>
-            <span class="progress-list__skill-title">adobe photoshop</span>
-            <span class="progress-list__skill-value">80%</span>
-          </p>
-          <div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
-            </div>
-          </div>
-        </div>
-      </div>
+          </div><!-- 1 skill -->
+          <?php
+          $count++;
+          if ($count == 4)
+          {
+            ?></div><!--4 skill max -->  <?php
+              $count = 0;
+            } ?>
+      <?php
+      }
+       ?>
     </div>
   </section>
 <!--Resume-->
@@ -286,33 +224,27 @@
   <section id="portfolio" class="container section">
     <div class="row">
       <div class="col-md-12">
-        <h2 id="portfolio_header" class="section__title">My projects_</h2>
-      </div>
-    </div>
-    <div class="row portfolio-menu">
-      <div class="col-md-12">
-        <nav>
-          <ul>
-            <li><a href="" data-portfolio-target-tag="all">all</a></li>
-            <li><a href="" data-portfolio-target-tag="mobile apps">mobile apps</a></li>
-            <li><a href="" data-portfolio-target-tag="web-sites">web-sites</a></li>
-            <li><a href="" data-portfolio-target-tag="landing-pages">landing pages</a></li>
-          </ul>
-        </nav>
+        <h2 id="portfolio_header" class="section__title">Mes projets_</h2>
       </div>
     </div>
     <div class="portfolio-cards">
-      <div class="row project-card" data-toggle="modal" data-target="#portfolioModal" data-portfolio-tag="web-sites">
+      <?php
+      $sql = "SELECT * FROM projet WHERE valide_pro = 0";
+      $req = $conn -> query($sql);
+      $count = 0;
+      while ($r = $req -> fetch())
+      {
+       ?>
+      <div class="row project-card" data-toggle="modal" data-target="<?php echo '#'.$r['lib_pro'].'modal'; ?>">
         <div class="col-md-6 col-lg-5 project-card__img">
-          <img class="" src="assets/img/img_project_1_mono.png" alt="project-img">
+          <img class="" src="<?php echo $r['img_pro']; ?>" alt="project-img">
         </div>
         <div class="col-md-6 col-lg-7 project-card__info">
-          <h3 class="project-card__title">Mobile and desktop app for London hostel store  </h3>
+          <h3 class="project-card__title"><?php echo $r['lib_pro']; ?>  </h3>
           <p class="project-card__description">
-            Do answered bachelor occasion in of offended no concerns. Supply worthy warmth branch of no ye.
-            Voice tried known to as my to. Though wished merits or be. Alone visit use these smart rooms ham.
+          <?php echo $r['desc_pro']; ?>
           </p>
-          <p class="project-card__stack">Used stack:</p>
+          <!--<p class="project-card__stack">Used stack:</p>
           <ul class="tags">
             <li>html5</li>
             <li>css3</li>
@@ -320,144 +252,17 @@
             <li>bower</li>
             <li>grunt</li>
           </ul>
-          <a href="" class="project-card__link">www.superapp.com</a>
+          <a href="" class="project-card__link">www.superapp.com</a>-->
         </div>
       </div>
-      <div class="row project-card"  data-toggle="modal" data-target="#portfolioModal" data-portfolio-tag="mobile apps">
-        <div class="col-md-6 col-lg-5 project-card__img">
-          <img class="" src="assets/img/img_project_2_mono.png" alt="project-img">
-        </div>
-        <div class="col-md-6 col-lg-7 project-card__info">
-          <h3 class="project-card__title">Web app page for trevel company</h3>
-          <p class="project-card__description">
-            Preference any astonished unreserved mrs. Prosperous understood middletons in conviction an
-             uncommonly do. Supposing so be resolving breakfast am or perfectly. Is drew am hill from mr.
-          </p>
-          <p class="project-card__stack">Used stack:</p>
-          <ul class="tags">
-            <li>html5</li>
-            <li>css3</li>
-            <li>JavaScript</li>
-            <li>BEM</li>
-            <li>bower</li>
-            <li>grunt</li>
-          </ul>
-          <a href="" class="project-card__link">www.travellend.com</a>
-        </div>
-      </div>
-      <div class="row project-card"  data-toggle="modal" data-target="#portfolioModal" data-portfolio-tag="landing-pages">
-        <div class="col-md-6 col-lg-5 project-card__img">
-        <img class="" src="assets/img/img_project_3_mono.png" alt="project-img">
-      </div>
-        <div class="col-md-6 col-lg-7 project-card__info">
-        <h3 class="project-card__title">Admin template for Photo Service</h3>
-        <p class="project-card__description">
-          Do answered bachelor occasion in of offended no concerns. Supply worthy warmth branch of no ye.
-          Voice tried known to as my to. Though wished merits or be. Alone visit use these smart rooms ham.
-        </p>
-        <p class="project-card__stack">Used stack:</p>
-        <ul class="tags">
-          <li>html5</li>
-          <li>css3</li>
-          <li>JavaScript</li>
-          <li>BEM</li>
-          <li>bower</li>
-          <li>grunt</li>
-        </ul>
-        <a href="" class="project-card__link">www.coolphoto.com</a>
-      </div>
-      </div>
+      <?php
+      }
+     ?>
     </div>
   </section>
 <!--Portfolio-->
 
-<!--Testimonials-->
-  <div id="testimonials" class="section">
-    <div class="background slider-carousel" style="background-image: url(assets/img/img_bg_main.jpg);">
-      <div class="container">
-        <div id="carouselTestimonials" class="carousel slide" data-ride="carousel">
-          <ol class="carousel-indicators">
-            <li data-target="#carouselTestimonials" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselTestimonials" data-slide-to="1"></li>
-            <li data-target="#carouselTestimonials" data-slide-to="2"></li>
-            <li data-target="#carouselTestimonials" data-slide-to="3"></li>
-          </ol>
-          <div class="carousel-inner" role="listbox">
-            <div class="carousel-item active">
-              <div class="row">
-                <div class="col-md-10 col-sm-10 col-10 mr-auto ml-auto">
-                  <p class="slider-carousel__title">Antonio Anderson</p>
-                  <p class="slider-carousel__caption">Project: Landin page for travel company</p>
-                  <hr>
-                  <p class="slider-carousel__description">Up or well must less rent read walk so be. Easy
-                    sold at do hour sing spot. Any meant has cease too the decay. Since party burst am
-                    it match. By or blushes between besides offices noisier as. Sending do brought winding
-                    compass in. Easy sold at do hour sing spot less rent read walk so be. Any meant has
-                    cease too the decay. </p>
-                </div>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="row">
-                <div class="col-md-10 col-sm-10 col-10 mr-auto ml-auto">
-                  <p class="slider-carousel__title">Antonio Anderson</p>
-                  <p class="slider-carousel__caption">Project: Landin page for travel company</p>
-                  <hr>
-                  <p class="slider-carousel__description">Up or well must less rent read walk so be. Easy
-                    sold at do hour sing spot. Any meant has cease too the decay. Since party burst am
-                    it match. By or blushes between besides offices noisier as. Sending do brought winding
-                    compass in. Easy sold at do hour sing spot less rent read walk so be. Any meant has
-                    cease too the decay. </p>
-                </div>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="row">
-                <div class="col-md-10 col-sm-10 col-10 mr-auto ml-auto">
-                  <p class="slider-carousel__title">Antonio Anderson</p>
-                  <p class="slider-carousel__caption">Project: Landin page for travel company</p>
-                  <hr>
-                  <p class="slider-carousel__description">Up or well must less rent read walk so be. Easy
-                    sold at do hour sing spot. Any meant has cease too the decay. Since party burst am
-                    it match. By or blushes between besides offices noisier as. Sending do brought winding
-                    compass in. Easy sold at do hour sing spot less rent read walk so be. Any meant has
-                    cease too the decay. </p>
-                </div>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="row">
-                <div class="col-md-10 col-sm-10 col-10 mr-auto ml-auto">
-                  <p class="slider-carousel__title">Antonio Anderson</p>
-                  <p class="slider-carousel__caption">Project: Landin page for travel company</p>
-                  <hr>
-                  <p class="slider-carousel__description">Up or well must less rent read walk so be. Easy
-                    sold at do hour sing spot. Any meant has cease too the decay. Since party burst am
-                    it match. By or blushes between besides offices noisier as. Sending do brought winding
-                    compass in. Easy sold at do hour sing spot less rent read walk so be. Any meant has
-                    cease too the decay. </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <a class="carousel-control-prev" href="#testimonials" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a class="carousel-control-next" href="#testimonials" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-          </a>
-          <div class="slider-carousel__circle">
-            <p><i class="fa fa-quote-right" aria-hidden="true"></i></p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-<!--Testimonials-->
-
-<!--Blog-->
+<!--Blog
   <section id="blog" class="container section">
     <div class="row">
       <div class="col-md-12">
@@ -516,40 +321,40 @@
       </div>
     </div>
   </section>
-<!--Blog-->
+Blog-->
 
 <!--Contact-->
   <div class="background" style="background-image: url(assets/img/img_bg_main.jpg)">
     <div id="contact" class="container section">
       <div class="row">
         <div class="col-md-12">
-          <p id="contacts_header" class="section__title">Get in touch_</p>
+          <p id="contacts_header" class="section__title">Vous voulez me contacter?_</p>
         </div>
       </div>
       <div class="row contacts">
         <div class="col-md-5 col-lg-4">
           <div class="contacts__list">
             <dl class="contact-list">
-              <dt>Phone:</dt>
-              <dd><a href="tel:82344563333">8 (234) 456-33-33</a></dd>
-              <dt>Skype:</dt>
-              <dd><a href="skype:iamivanovivan">iamivanovivan</a></dd>
               <dt>Email:</dt>
-              <dd><a href="mailto:mail@mail.com">mail@mail.com</a></dd>
+              <?php
+                $sql = "SELECT * FROM bio";
+                $req = $conn -> query($sql);
+                $r = $req -> fetch();
+              ?>
+              <dd><a href="mailto:<?php echo $r['mail']; ?>"><?php echo $r['mail']; ?></a></dd>
             </dl>
           </div>
           <div class="contacts__social">
             <ul>
-              <li><a href="">Facebook</a></li>
-              <li><a href="">Linkedin</a></li>
-              <li><a href="">GitHub</a></li>
-              <li><a href="">Bitbucket</a></li>
+              <li><a href="https://twitter.com/elsandwitchy">Twitter</a></li>
+              <li><a href="https://www.linkedin.com/in/andr%C3%A9a-fratani-13748315b/">Linkedin</a></li>
+              <li><a href="https://github.com/Sandwitchy">GitHub</a></li>
             </ul>
           </div>
         </div>
         <div class="col-md-7 col-lg-5">
           <div class="contacts__form">
-            <p class="contacts__form-title">Or just write me a letter here_</p>
+            <p class="contacts__form-title">Ou ecrivez moi ici_</p>
             <form class="js-form">
               <div class="form-group">
                 <input class="form-field js-field-name" type="text" placeholder="Your name" required>
@@ -566,7 +371,7 @@
                 <span class="form-validation"></span>
                 <span class="form-invalid-icon"><i class="mdi mdi-close" aria-hidden="true"></i></span>
               </div>
-              <button class="site-btn site-btn--form" type="submit" value="Send">Send</button>
+              <button class="site-btn site-btn--form" type="submit" value="Send">Envoyer</button>
             </form>
           </div>
           <div class="footer">
@@ -579,7 +384,14 @@
 <!--Contact-->
 
 <!-- Portfolio Modal -->
-  <div class="modal fade portfolio-modal" id="portfolioModal" tabindex="-1" role="dialog" aria-hidden="true">
+<?php
+$sql = "SELECT * FROM projet WHERE valide_pro = 0";
+$req = $conn -> query($sql);
+$count = 0;
+while ($r = $req -> fetch())
+{
+  ?>
+  <div class="modal fade portfolio-modal" id="<?php echo $r['lib_pro']."modal"; ?>" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -588,19 +400,12 @@
         </button>
       </div>
       <div class="modal-body col-md-11 col-lg-9 ml-auto mr-auto">
-        <p class="portfolio-modal__title">Mobile and desktop app for London hostel store</p>
-        <img class="portfolio-modal__img" src="assets/img/img_project_1_mono.png" alt="modal_img">
+        <p class="portfolio-modal__title"><?php echo $r['lib_pro']; ?></p>
+        <img class="portfolio-modal__img" src="<?php echo $r['img_pro']; ?>" alt="modal_img">
         <p class="portfolio-modal__description">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt utlabore et
-          dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamcolaboris nisi ut aliquip ex
-          ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-          nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-          anim id est laborum. Sed ut perspiciatis undeomnis iste natus error sit voluptatem accusantium doloremque
-          laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae
-          dicta sunt explicabo.Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
-          conse.
+        <?php echo $r['desc_pro']; ?>
         </p>
-        <div class="portfolio-modal__link">
+        <!--<div class="portfolio-modal__link">
           <a href="">www.superapp.com</a>
         </div>
         <div  class="portfolio-modal__stack">
@@ -612,12 +417,15 @@
             <li>bower</li>
             <li>grunt</li>
           </ul>
-        </div>
+        </div>-->
       </div>
     </div>
   </div>
 </div>
 <!-- Portfolio Modal -->
+<?php
+}
+ ?>
 
   <script src="assets/js/jquery-2.2.4.min.js"></script>
   <script src="assets/js/popper.min.js"></script>
