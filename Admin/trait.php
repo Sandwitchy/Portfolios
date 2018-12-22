@@ -20,7 +20,7 @@
     unlink($r['img']);
 
     $ext = ".".pathinfo($n, PATHINFO_EXTENSION);
-    $pathnewphoto1 = "photoprof".$ext;
+    $pathnewphoto1 = "../assets/img/photoprof".$ext;
 
     move_uploaded_file($temp,$pathnewphoto1);
 
@@ -149,7 +149,7 @@
     $e = $_FILES['imgpro']['error'];
 
     $ext = ".".pathinfo($n, PATHINFO_EXTENSION);
-    $pathnewphoto1 = "projet".rand(0,1024).$ext;
+    $pathnewphoto1 = "../assets/img/projet".rand(0,1024).$ext;
 
     move_uploaded_file($temp,$pathnewphoto1);
 
@@ -174,7 +174,7 @@
     unlink($r['img_pro']);
 
     $ext = ".".pathinfo($n, PATHINFO_EXTENSION);
-    $pathnewphoto1 = "projet".$id.$ext;
+    $pathnewphoto1 = "../assets/img/projet".$id.$ext;
 
     move_uploaded_file($temp,$pathnewphoto1);
 
