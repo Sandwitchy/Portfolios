@@ -44,7 +44,7 @@
                           $r = $req -> fetch();
                         ?>
                         <label>Libellé</label>
-                        <input type='text' name='lib' value='<?php echo $r['lib_pro']; ?>' class='form-control'><br>
+                        <input type='text' name='lib' value="<?php echo $r['lib_pro']; ?>" class='form-control'><br>
                         <div class='vb-profilepic img-thumbnail col-md' style="background-image:url('<?php echo $r['img_pro']; ?>');
                                                                         height:150px;width:150px;"></div>
                         <input type='file' id='image' name='imgpro'>

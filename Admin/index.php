@@ -23,12 +23,10 @@
                         <label for='age'>Age</label>
                         <input type='text' value='<?php echo $r["age"]; ?>' id='age' name='age' class='form-control'>
                         <br>
-                        <label for="image">Image de profil</label>
-                        <div class='row'>
-                          <div class='vb-profilepic img-thumbnail col-md' style="background-image:url('<?php echo $r['img']; ?>');
+                        <label for="image">Image de profil</label><br>
+                        <div class='vb-profilepic img-thumbnail col-md' style="background-image:url('<?php echo $r['img']; ?>');
                                                                           height:150px;width:150px;"></div>
-                          <input type='file' id='image' name='imgpro'>
-                        </div>
+                        <input type='file' id='image' name='imgpro'>
                         <fieldset>
                           <legend>Coordonnées</legend>
                           <label>Mail</label>
